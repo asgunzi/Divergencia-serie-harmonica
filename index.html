@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+
+<style>
+.slider{
+width:500px;
+}
+</style>
+
+ <title>Série Harmônica</title>
+ 
+<script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+
+      <h1><a href="https://ideiasesquecidas.com"> <img src=	"https://ideiasesquecidas.files.wordpress.com/2020/03/forgottenlogo.png" width="90" height = "50"></a> Prova visual da divergência da Série Harmônica</h1>
+
+
+<script type = "text/javascript">
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", 1020)
+        .attr("height", 1000);
+
+   
+	Desenhar();
+
+
+	
+	function Desenhar()
+	{
+	var x0 =[];
+	var y0=[];
+	var padx =20;
+	var sepX = 150;
+	var sepY = 100;
+	var x0fill =[];
+	var y0fill=[];
+	var hei_fill =[];
+	var tamanho =64;
+	var aux;
+	var linex0=[];
+	var linex1=[];
+	var liney0=[];
+	var liney1=[];
+	var k;
+	var textx =[];
+	var texty =[];
+	var textvalue =[];
+	
+	
+	svg.selectAll("*").remove();
+
+	var N = 8;
+	var i;
+
+	var x0=[];
+	var y0=[];
+
+	//Conteiner retangulos
+	for (i = 0; i<N-1; i++)
+	{
+		//Esquerda
+		x0.push(padx);
+		y0.push(i*sepY);	
+		
+		//Direita
+		x0.push(padx+sepX);
+		y0.push(i*sepY);	
+	}
+	
+	//Linhas aux
+	for (i = 0; i<N-1; i++)
+	{
+		if (i>0)
+		{
+			for (k=0;k<i;k++)
+			{
+				//Esquerda
+				linex0.push(padx);
+				linex1.push(padx+tamanho);
+				liney0.push(i*sepY+  (1/(2+i))*tamanho*(k+1));	
+				liney1.push(i*sepY+  (1/(2+i))*tamanho*(k+1));				
+			}
+		
+			//Direita
+			if (2+i <=2)
+			{aux =2;
+			}
+			else if (2+i<=4)
+			{
+			aux = 4;
+			}
+			else if (2+i <=8)
+			{
+			aux =8;
+			}
+
+			for (k=0;k<aux-2;k++)
+			{
+				linex0.push(padx+sepX);
+				linex1.push(padx+sepX+tamanho);
+				liney0.push(i*sepY+  (1/(aux))*tamanho*(k+1));	
+				liney1.push(i*sepY+  (1/(aux))*tamanho*(k+1));	
+			}
+		}
+	}
+	 
+	 //Text
+	 for (i = 0; i<N-1; i++)
+	{
+		textx.push(padx +tamanho+45);
+		texty.push(i*sepY+tamanho/2+5);
+		textvalue.push(">=");
+
+		textx.push(padx +tamanho+8);
+		texty.push(i*sepY+tamanho/2+5);
+		textvalue.push("1/" +(i+2));
+
+		if (2+i <=2)
+		{aux =2;
+		}
+		else if (2+i<=4)
+		{
+		aux = 4;
+		}
+		else if (2+i <=8)
+		{
+		aux =8;
+		}
+
+		textx.push(padx +sepX+ tamanho+8);
+		texty.push(i*sepY+tamanho/2+5);
+		textvalue.push("1/" + aux);
+						
+	}
+	
+	
+	//Retangulo fill
+	for (i = 0; i<N-1; i++)
+	{
+		//Esquerda
+		x0fill.push(padx);
+		y0fill.push(i*sepY + (1 -1/(2+i))*tamanho);	
+		hei_fill.push((1/(2+i))*tamanho);
+		
+		
+		//Direita
+		if (2+i <=2)
+		{aux =2;
+		}
+		else if (2+i<=4)
+		{
+		aux = 4;
+		}
+		else if (2+i <=8)
+		{
+		aux =8;
+		}
+		
+		x0fill.push(padx+sepX);
+		y0fill.push(i*sepY + (1-1/aux)*tamanho);	
+		hei_fill.push((1/aux)*tamanho);
+	}
+	
+	//Inclui conteineres no SVG
+		svg.selectAll()
+			.data(x0)
+			.enter()
+			.append("rect")
+			.attr("x", function(d,i){ return(x0[i])})
+			.attr("y",  function(d,i){ return(y0[i])})
+			.attr("width", tamanho)
+			.attr("height", tamanho)
+			.attr("fill", "white")
+			.attr("stroke", "black")
+		
+			//Inclui linhas
+			svg.selectAll()
+			.data(linex0)
+			.enter()
+			.append("line")
+			.attr("x1", function(d,i){ return(linex0[i])})
+			.attr("y1", function(d,i){ return(liney0[i])})
+			.attr("x2", function(d,i){ return(linex1[i])})
+			.attr("y2", function(d,i){ return(liney1[i])})
+			.attr("stroke", "black") 
+		
+		//Inclui fill
+		svg.selectAll()
+			.data(x0fill)
+			.enter()
+			.append("rect")
+			.attr("x", function(d,i){return x0fill[i]})
+			.attr("y", function(d,i){return y0fill[i]})
+			.attr("width", tamanho)
+			.attr("height", function(d,i){return hei_fill[i]})
+			.attr("fill", "lightgray")
+			.attr("stroke", "black")
+		
+		
+	var textX= svg.selectAll("text")
+			.data(textx)
+			.enter()
+			.append("text")
+			.attr("x", function(d,i){return textx[i]})
+			.attr("y", function(d,i){return texty[i]})
+			.text(function(d,i){return textvalue[i]})			
+			.attr("font-size", "20");
+			
+
+	}
+	
+	
+  </script>
+</body>
+</html>
