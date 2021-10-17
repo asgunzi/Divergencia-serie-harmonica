@@ -37,3 +37,8 @@ A soma dos primeiros 1043 termos é menor do que 100, segundo a Wikipedia, cujo 
 
 Vide código do desenho no arquivo index.html, aqui no Github.
 
+Vide também:
+
+https://ideiasesquecidas.com/2021/10/17/prova-visual-da-divergencia-da-serie-harmonica/
+
+https://ideiasesquecidas.com/laboratorio-de-matematica/
